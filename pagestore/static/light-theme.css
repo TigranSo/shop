@@ -1,0 +1,35 @@
+html{
+    background-color: #c8bfbf !important; 
+    color: black !important;
+ }
+ 
+body{
+    background-color: #e3e3e3 !important;   
+    border-radius: 25px !important;
+    color: rgb(0, 0, 0) !important ;
+}
+
+a{
+    color: black !important;
+}
+
+.container{
+    border-radius: 25px !important;
+    font-style: italic !important;
+    color: black !important;
+}
+
+.hearte_gg{
+    position: absolute;
+    top: 10px
+}
+
+.card{
+    background-color: #e3e3e3;
+    color: black;
+}
+
+.dropdown-menu{
+    background-color: white;
+    color: black;
+}

@@ -1,0 +1,33 @@
+{% extends 'pagestore/base.html' %}
+{% load static %}
+
+{% block title %}Orders{% endblock %}
+{% block body %}
+<div class="home-empty"></div>
+<div class="card mb-2 g-5 m-2 color_bg_card">
+    <h2 class="favorites-header">Detail Orders</h2>
+</div><br>
+
+<div>
+    <h1>Order Details</h1>
+    <p>Date Created: {{ order.date_created }}</p>
+    <p>Total Cost: ${{ order.total_cost }}</p>
+    <p>Phone: {{ order.phone }}</p>
+    <p>Address: {{ order.addres }}</p>
+    <p>Payment Method: {{ order.payment }}</p>
+    
+    <h2>Ordered Products</h2>
+    <ul>
+        {% for order_item in order_items %}
+            <li>
+                <a href="{% url 'product_detail' order_item.product.id %}"><img src="{{ order_item.product.photo.url }}" alt="{{ order_item.product.name }}" width="50"></a>
+                <a href="{% url 'product_detail' order_item.product.id %}">{{ order_item.product.name }} - ${{ order_item.product.price }} (Quantity: {{ order_item.quantity }})</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h5 class="fw-normal mb-0">
+        <a href="{% url 'orders' %}" class="btn btn-primary">Orders</a>
+    </h5>
+</div>
+
+{% endblock %}

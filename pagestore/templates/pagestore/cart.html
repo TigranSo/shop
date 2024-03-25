@@ -1,0 +1,119 @@
+{% extends 'pagestore/base.html' %}
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+{% block body %}
+
+
+<div class="home-empty"></div>
+<div class="card mb-2 g-5 m-2 color_bg_card">
+    <h2 class="favorites-header">Cart</h2>
+</div>
+{% for message in messages %}
+    <div class="message">
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        <!-- <a href="#" class="del-msg">&times;</a> -->
+    </div>
+{% endfor %}
+<section class="h-100 h-custom box" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+          <div class="card">
+            <div class="card-body p-4">
+              <div class="row">
+                <div class="col-lg-7">
+                  <h5 class="mb-3"><a href="/" class="text-body"><i
+                        class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                  <hr>
+                  {% for item in cart_items %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row align-items-center">
+                                <div>
+                                    <img
+                                    src="{{ item.product.photo.url }}"
+                                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                </div>
+                                <div class="ms-3">
+                                    <h5><a href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a></h5>
+                                    <p class="small mb-0">{{ item.product.description|truncatechars:50 }}</p>
+                                </div>
+                                </div>
+                                <div class="d-flex flex-row align-items-center">
+                                <div style="width: 50px;">
+                                    <h5 class="fw-normal mb-0">{{ item.quantity_in_cart }}</h5>
+                                </div>
+                                <div style="width: 80px;">
+                                    <h5 class="mb-0">${{ item.product.price }}</h5>
+                                </div>
+                                    <form method="post" action="{% url 'cart' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                        <button type="submit" class="btn btn-light"><i class='fas fa-trash-alt' style='color: red'></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-5">
+                  <div class="card bg-primary text-white rounded-3">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-4">
+                        
+                      </div>
+                      <hr class="my-4">
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">Items</p>
+                        <p class="mb-2">{{ cart_count }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <p class="mb-2">Amount without discount</p>
+                          <p class="mb-2">{{ total_cost }}%</p> 
+                      </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Your personal discount</p>
+                            <p class="mb-2">{{ discount }}%</p> 
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <p class="mb-2">Total</p>
+                            <p class="mb-2">${{ discounted_total }}</p> 
+                        </div>
+                        <br>                        
+                        <form method="post" action="{% url 'purchase_all' %}">
+                          {% csrf_token %}
+                          <input class="form-control text-dark mt-2" type="number" name="phone" placeholder="Phone" required>
+                          <input class="form-control text-dark mt-2"  type="text" name="addres" placeholder="address" required><br>
+                          <h3 class="ftco-animate">Payment method</h3>      
+                          <select class="form-select text-dark mt-2" type="number" name="payment" required >
+                              <option value="Наличными при получении">Наличными при получении</option>
+                              <option value="Картой при получении">Картой при получении</option>
+                              <option value="Банковской картой онлайн">Банковской картой онлайн</option>
+                          </select><br>
+                          
+                          <button type="submit" class="btn btn-info btn-block btn-lg">
+                              <div class="d-flex justify-content-between">
+                                  <span>${{ discounted_total }}</span>
+                                  <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                              </div>
+                          </button>
+                      </form>
+                      <div class="cart-purchase">
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+{% endblock %}

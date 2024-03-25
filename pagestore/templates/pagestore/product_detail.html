@@ -1,0 +1,28 @@
+{% extends 'pagestore/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+{% block body %}
+
+<div class="home-empty"></div>
+
+
+<section class="product-detail">
+    <div class="container">
+        <br>
+        <img src="{{ product.photo.url }}" class="card-img-top img-thumbnail" alt="{{ product.name }}">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            {% if product.quantity == 0 %}
+                <small class="text-muted"><button  class="btn btn-primary otstup_s" type="submit" disabled>add to cart</button></small>
+            {% else %}
+                <small class="text-muted"><button  class="btn btn-primary otstup_s" type="submit">add to cart</button></small>
+            {% endif %}
+        </form>
+        <small class="text-muted"><a href="/" class="btn btn-success otstup_s">home</a> <a href="{% url 'shop' %}" class="btn btn-info otstup_s">shop</a></small>
+    </div><br>
+</section>
+{% endblock %}

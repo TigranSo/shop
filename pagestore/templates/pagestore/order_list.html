@@ -1,0 +1,12 @@
+<form method="get" action="">
+    {{ form.as_p }}
+    <button type="submit">Apply Filters</button>
+</form>
+
+<ul>
+    {% for order in orders %}
+        <li>{{ order.total_cost }}</li>
+    {% empty %}
+        <li>No orders found.</li>
+    {% endfor %}
+</ul>

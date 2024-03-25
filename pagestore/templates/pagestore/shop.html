@@ -1,0 +1,113 @@
+{% extends 'pagestore/base.html' %}
+{% load static %}
+
+{% block title %} Store {% endblock %}
+{% block body %}
+
+
+<div class="home-empty"></div>
+{% for message in messages %}
+    <div class="message">
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        <!-- <a href="#" class="del-msg">&times;</a> -->
+    </div>
+{% endfor %}
+<div class="container">
+    <div class="sort-by-price m-2 text-light">
+        <form method="get" action="{% url 'shop' %}" class="d-inline">
+            <input class="inp_price" type="number" name="price_min" id="price_min" step="0.01" placeholder="Min Price">
+            <input class="inp_price" type="number" name="price_max" id="price_max" step="0.01" placeholder="Max Price">
+            <select name="sort_by" class="sort-by-select">
+                <option value="">Sort By</option>
+                <option value="price_low">Price Low to High</option>
+                <option value="price_high">Price High to Low</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+        <form method="get" action="{% url 'shop' %}" class="d-inline">
+            <select name="category" class="sort-by-select">
+                <option value="">Choose a category</option>
+                <option value="Keyboard">Keyboard</option>
+                <option value="Mouse">Mouse</option>
+                <option value="Microphone">Microphone</option>
+            </select>
+            <button class="btn btn-primary" type="submit">Apply</button>
+        </form>
+    </div>
+    <div class="main-content">
+        <!-- Your main content goes here -->
+    </div>
+    <!-- <div class="navbar-brand">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button> 
+    </div> -->
+    {% for dis in discoun %}
+        <b class="justify-content-center discoun">{{ request.user.username }}, Your personal discount {{ dis.discount }}%</b>
+    {% endfor %}<br><br>
+    <div class="row row-cols-1 row-cols-md-3 g-2 m-2">
+        {% for product in page_obj %}
+            <div class="card grid-item box">
+                <a href="{% url 'product_detail' product.id %}"><img src="{{ product.photo.url }}" class="card-img-top img-thumbnail" alt="{{ product.name }}"></a>
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'product_detail' product.id %}">{{ product.name|truncatechars:20 }}</a></h5>
+                    <p class="card-text">{{ product.description|truncatechars:40 }}</p>
+                    {% if not product.category %}
+                    {% else %}
+                      <p class="card-text">Category: {{ product.category }}</p>
+                    {% endif %}
+                    <p class="card-text">Price: ${{ product.price }}</p>
+                    {% if discount_percentage %}
+                        <p>Discounted percentage: ${{ discount_percentage }}</p>
+                        <p>Discounted price: ${{ product.discounted_price }}</p>
+                    {% endif %}
+                    <p>Available: {{ product.quantity }}</p>
+                    {% if product.quantity_in_cart %}
+                        <p>Items in cart: {{ product.quantity_in_cart }}</p>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'toggle_favorites' product.id %}">
+                            {% csrf_token %}
+                            {% if product in user_favorites %}
+                                <button type="submit" class="btn btn-danger">Remove favorites</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-danger bx fas fa-heart hearte_gg"></button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                    <form method="post"  action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        {% if product.quantity == 0 %}
+                            <small class="text-muted"><button  class="btn btn-primary otstup_s" type="submit" disabled>add to cart</button></small>
+                        {% else %}
+                            <small class="text-muted"><button  class="btn btn-primary otstup_s" type="submit">add to cart</button></small>
+                        {% endif %}
+                    </form>
+                        <small class="text-muted"><a class="btn btn-info otstup_s" href="{% url 'product_detail' product.id %}">мore detailed</a></small>
+                    
+                {% comment %} <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> {% endcomment %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="pagination mt-5 pagination-text justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+footer{
+    border-radius: 25px !important;
+}
+
+.navbar{
+    padding: 5px !important;
+}
+
+
+img{
+    border-radius: 25px !important; 
+}
+
+.nav-item{
+    padding: 5px !important;
+}
+
+
+button{
+    border-radius: 25px !important;  
+    margin-top: 5px !important;
+}
+
+.btn{
+    border-radius: 25px !important;   
+    margin-top: 5px !important;
+}
+
+
+input{
+    border-radius: 25px !important; 
+}
+
+.img-thumbnail {
+    max-width: 100px; 
+    max-height: auto; 
+    width: auto;
+    height: auto;
+}
+
+.bx{
+    font-size: 22px;
+}
+
+.bx:hover{
+    font-size: 24px; 
+}
+
+.home-empty{
+    margin-top: 90px !important;
+}
+
+.gradient-custom {
+    border-radius: 25px !important;
+}
+
+.color_bg_card{
+    border-radius: 25px !important; 
+    background-color: #918f8f !important;
+    text-align: center !important;
+}
+
+select{
+    border-radius: 25px !important;  
+}
+
+.card{
+    border-radius: 25px !important;  
+}
+
+.sort-by-price {
+    padding: 10px;
+}
+
+.main-content {
+    padding: 5px;
+}
+
+.count_header{
+    font-size: 24px;
+    color: brown;
+}
+
+.pagination-text{
+    font-size: 28px;
+}
+
+.discoun{
+    text-align: center !important ;
+}

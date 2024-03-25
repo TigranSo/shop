@@ -1,0 +1,26 @@
+{% extends 'pagestore/base.html' %}
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+{% block body %}
+<div class="home-empty"></div>
+<div class="card mb-2 g-5 m-2 color_bg_card">
+    <h2 class="favorites-header">Your Favorite Products</h2>
+</div>
+
+{% for product in favorite_products %}
+    <div class="card mb-1 m-1 ">
+        <img src="{{ product.photo.url }}" class="card-img-top img-thumbnail" alt="{{ product.name }}" data-holder-rendered="true" style="width: 300px; height: 350px;">
+        <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h5>
+        <p class="card-text">{{ product.description }}</p>
+        <p class="card-text"><small class="text-muted">LPrice: ${{ product.price }}</small></p>
+        <form method="post" action="{% url 'remove_from_favorites' product.id %}">
+            {% csrf_token %}     
+            <p class="card-text"><small class="text-muted"><button type="submit" class="btn btn-danger">Remove from Favorites</button></small></p>
+        </form>
+            <small class="text-muted"><a class="btn btn-info otstup_s" href="{% url 'product_detail' product.id %}">мore detailed</a></small>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
