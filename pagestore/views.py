@@ -17,7 +17,7 @@ from django.core.mail import send_mail
 
 
 def shop(request):
-    # Получаем все товары
+    # Получаем все 
     all_products = Product.objects.all()
     discoun = Discounted.objects.filter(user=request.user)
 
